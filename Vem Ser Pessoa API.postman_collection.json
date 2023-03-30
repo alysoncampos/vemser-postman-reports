@@ -7,193 +7,392 @@
 	},
 	"item": [
 		{
-			"name": "Adiciona pessoa",
-			"event": [
+			"name": "Pessoa",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"const jsonData = pm.response.json();\r",
-							"pm.test(\"Check nome is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Check dataNascimento is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Check cpf is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Check email is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
-							"    pm.sendRequest({\r",
-							"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
-							"        method: \"DELETE\",\r",
-							"        header: {\r",
-							"            \"Authorization\": pm.variables.get(\"token\")\r",
-							"        }\r",
-							"    });\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
+					"name": "Adiciona pessoa",
+					"event": [
 						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Check nome is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check dataNascimento is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check cpf is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check email is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
+									"        method: \"DELETE\",\r",
+									"        header: {\r",
+									"            \"Authorization\": pm.variables.get(\"token\")\r",
+									"        }\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/pessoa",
-					"host": [
-						"{{base_url}}"
 					],
-					"path": [
-						"pessoa"
-					]
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pessoa",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pessoa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar pessoa",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: pm.variables.get(\"base_url\") + \"/pessoa\",\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"content-type\": \"application/json\",\r",
+									"        \"accept\": \"application/json\", \r",
+									"        \"Authorization\": pm.variables.get(\"token\")\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify(pm.variables.get(\"new_pessoa\"))\r",
+									"    }\r",
+									"}, function (err, res) {\r",
+									"    pm.expect(err).is.null;\r",
+									"    pm.environment.set(\"idPessoa\", res.json().idPessoa);\r",
+									"});\r",
+									"\r",
+									"pm.variables.set(\"nome\", pm.variables.replaceIn('{{$randomFullName}}'))\r",
+									"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Check nome is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check dataNascimento is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check cpf is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check email is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
+									"        method: \"DELETE\",\r",
+									"        header: {\r",
+									"            \"Authorization\": pm.variables.get(\"token\")\r",
+									"        }\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pessoa/{{idPessoa}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pessoa",
+								"{{idPessoa}}"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Atualizar pessoa",
-			"event": [
+			"name": "Endereco",
+			"item": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"pm.sendRequest({\r",
-							"    url: pm.variables.get(\"base_url\") + \"/pessoa\",\r",
-							"    method: \"POST\",\r",
-							"    header: {\r",
-							"        \"content-type\": \"application/json\",\r",
-							"        \"accept\": \"application/json\", \r",
-							"        \"Authorization\": pm.variables.get(\"token\")\r",
-							"    },\r",
-							"    body: {\r",
-							"        mode: 'raw',\r",
-							"        raw: JSON.stringify(pm.variables.get(\"new_pessoa\"))\r",
-							"    }\r",
-							"}, function (err, res) {\r",
-							"    pm.expect(err).is.null;\r",
-							"    pm.environment.set(\"idPessoa\", res.json().idPessoa);\r",
-							"});\r",
-							"\r",
-							"pm.variables.set(\"nome\", pm.variables.replaceIn('{{$randomFullName}}'))\r",
-							"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'))"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"const jsonData = pm.response.json();\r",
-							"pm.test(\"Check nome is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Check dataNascimento is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Check cpf is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Check email is True\", function () {\r",
-							"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
-							"    pm.sendRequest({\r",
-							"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
-							"        method: \"DELETE\",\r",
-							"        header: {\r",
-							"            \"Authorization\": pm.variables.get(\"token\")\r",
-							"        }\r",
-							"    });\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
+					"name": "Adiciona pessoa",
+					"event": [
 						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Check nome is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check dataNascimento is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check cpf is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check email is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
+									"        method: \"DELETE\",\r",
+									"        header: {\r",
+									"            \"Authorization\": pm.variables.get(\"token\")\r",
+									"        }\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{base_url}}/pessoa/{{idPessoa}}",
-					"host": [
-						"{{base_url}}"
 					],
-					"path": [
-						"pessoa",
-						"{{idPessoa}}"
-					]
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pessoa",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pessoa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar pessoa",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"    url: pm.variables.get(\"base_url\") + \"/pessoa\",\r",
+									"    method: \"POST\",\r",
+									"    header: {\r",
+									"        \"content-type\": \"application/json\",\r",
+									"        \"accept\": \"application/json\", \r",
+									"        \"Authorization\": pm.variables.get(\"token\")\r",
+									"    },\r",
+									"    body: {\r",
+									"        mode: 'raw',\r",
+									"        raw: JSON.stringify(pm.variables.get(\"new_pessoa\"))\r",
+									"    }\r",
+									"}, function (err, res) {\r",
+									"    pm.expect(err).is.null;\r",
+									"    pm.environment.set(\"idPessoa\", res.json().idPessoa);\r",
+									"});\r",
+									"\r",
+									"pm.variables.set(\"nome\", pm.variables.replaceIn('{{$randomFullName}}'))\r",
+									"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Check nome is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check dataNascimento is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check cpf is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check email is True\", function () {\r",
+									"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
+									"        method: \"DELETE\",\r",
+									"        header: {\r",
+									"            \"Authorization\": pm.variables.get(\"token\")\r",
+									"        }\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pessoa/{{idPessoa}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pessoa",
+								"{{idPessoa}}"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
