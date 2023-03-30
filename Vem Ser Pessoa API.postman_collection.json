@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "69ffd795-b5ab-477f-87e5-f274167f1d2c",
+		"name": "Vem Ser Pessoa API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18111986"
+	},
+	"item": [
+		{
+			"name": "Adiciona pessoa",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Check nome is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check dataNascimento is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check cpf is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check email is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
+							"    pm.sendRequest({\r",
+							"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
+							"        method: \"DELETE\",\r",
+							"        header: {\r",
+							"            \"Authorization\": pm.variables.get(\"token\")\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/pessoa",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"pessoa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar pessoa",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.sendRequest({\r",
+							"    url: pm.variables.get(\"base_url\") + \"/pessoa\",\r",
+							"    method: \"POST\",\r",
+							"    header: {\r",
+							"        \"content-type\": \"application/json\",\r",
+							"        \"accept\": \"application/json\", \r",
+							"        \"Authorization\": pm.variables.get(\"token\")\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify(pm.variables.get(\"new_pessoa\"))\r",
+							"    }\r",
+							"}, function (err, res) {\r",
+							"    pm.expect(err).is.null;\r",
+							"    pm.environment.set(\"idPessoa\", res.json().idPessoa);\r",
+							"});\r",
+							"\r",
+							"pm.variables.set(\"nome\", pm.variables.replaceIn('{{$randomFullName}}'))\r",
+							"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Check nome is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"nome\")).to.eql(jsonData.nome);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check dataNascimento is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"dataNascimento\")).to.eql(jsonData.dataNascimento);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check cpf is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"cpf\")).to.eql(jsonData.cpf);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check email is True\", function () {\r",
+							"    pm.expect(pm.variables.get(\"email\")).to.eql(jsonData.email);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Excluir massa de teste com sucesso\", () => {\r",
+							"    pm.sendRequest({\r",
+							"        url: pm.variables.get(\"base_url\") + \"/pessoa/\" + jsonData.idPessoa,\r",
+							"        method: \"DELETE\",\r",
+							"        header: {\r",
+							"            \"Authorization\": pm.variables.get(\"token\")\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"{{nome}}\",\r\n  \"dataNascimento\": \"{{dataNascimento}}\",\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"email\": \"{{email}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/pessoa/{{idPessoa}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"pessoa",
+						"{{idPessoa}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.variables.set(\"nome\", pm.variables.replaceIn('{{$randomFullName}}'))",
+					"",
+					"function gerarDataNascimento() {",
+					"    var datas = [\"1990-09-03\", \"1972-11-01\", \"1964-04-03\", \"1952-01-27\", \"1964-04-03\", \"2001-01-03\", \"2002-07-13\", \"2003-04-29\", \"2004-09-15\", \"1987-08-11\", \"1964-06-12\", \"1999-05-03\", \"2000-11-06\", \"1946-03-25\", \"1949-05-29\"];",
+					"",
+					"    var randomItem = datas[Math.floor(Math.random() * datas.length)];",
+					"",
+					"    return randomItem;",
+					"}",
+					"pm.variables.set(\"dataNascimento\", gerarDataNascimento())",
+					"",
+					"//Disponível em: http://sooho.com.br/dicas-e-truques/javascript/gerar-cpf-fake-com-javascript/",
+					"const getModulo = (dividendo, divisor) => {",
+					"   return Math.round(dividendo - (Math.floor(dividendo / divisor) * divisor));",
+					"}",
+					"const getRandomNumberBetween = (min, max) => {",
+					"  return Math.floor(Math.random() * (max - min) + min);",
+					"}",
+					"const getNumerosRandomicos = (total) => {",
+					"   let numbers = [];",
+					"   for (let i = 0; i < total; i++) {",
+					"      numbers[i] = getRandomNumberBetween(1, 9);",
+					"   }",
+					"   return numbers;",
+					"}",
+					"const getDigitoVerificadorCpf = (numeros = []) => {",
+					"   let digito = 0;",
+					"   let arraySize = numeros.length + 1;",
+					"",
+					"   numeros.map((numero, index) => {",
+					"       digito += numero * (arraySize - index);",
+					"   });",
+					"",
+					"   digito = 11 - (getModulo(digito, 11));",
+					"   return digito >= 10 ? 0 : digito;",
+					"}",
+					"const gerarCpfFake = () => {",
+					"    let numeros = getNumerosRandomicos(9);",
+					"    numeros.push(getDigitoVerificadorCpf(numeros));",
+					"    numeros.push(getDigitoVerificadorCpf(numeros));",
+					"",
+					"    return numeros.join('');",
+					"}",
+					"pm.variables.set(\"cpf\", gerarCpfFake())",
+					"",
+					"pm.variables.set(\"email\", pm.variables.replaceIn('{{$randomEmail}}'))",
+					"",
+					"let pessoa = {",
+					"    \"nome\": pm.variables.get(\"nome\"),",
+					"    \"dataNascimento\": pm.variables.get(\"dataNascimento\"),",
+					"    \"cpf\": pm.variables.get(\"cpf\"),",
+					"    \"email\": pm.variables.get(\"email\")",
+					"}",
+					"pm.variables.set(\"new_pessoa\", pessoa);",
+					"",
+					"// Set Token automatico",
+					"pm.sendRequest({",
+					"    url: pm.variables.get(\"base_url\") + \"/auth\",",
+					"    method: \"POST\",",
+					"    header: {",
+					"        \"content-type\": \"application/json\",",
+					"    },",
+					"    body: {",
+					"        mode: 'raw',",
+					"        raw: JSON.stringify({",
+					"            \"login\": pm.variables.get(\"login\"),",
+					"            \"senha\": pm.variables.get(\"senha\")",
+					"        })",
+					"    }",
+					"}, function (err, res) {",
+					"    pm.expect(err).is.null;",
+					"    pm.variables.set(\"token\", res.text());",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
